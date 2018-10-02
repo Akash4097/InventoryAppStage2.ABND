@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">InventoryAppStage1</string>
+    <string name="setting_save_title">Save</string>
+    <string name="setting_delete_title">Delete</string>
+    <string name="setting_insert_dummy_data_title">Insert Dummy Data</string>
+    <string name="setting_delete_all_products_title">Delete All Products</string>
+    <string name="product_name_edit_text_hint">Enter Product Name</string>
+    <string name="product_name_text_view_text">Product Name</string>
+    <string name="product_price_text_view_text">Product Price</string>
+    <string name="product_price_edit_text_hint">Enter Product Price</string>
+    <string name="product_quantity_text_view_text">Product Quantity</string>
+    <string name="product_quantity_edit_text_hint">Enter Product Quantity</string>
+    <string name="supplier_name_text_view_text">Supplier Name</string>
+    <string name="supplier_name_edit_text_hint">Enter Supplier Name</string>
+    <string name="supplier_phone_number_text_view_text">Supplier Phone Number</string>
+    <string name="supplier_phone_number_edit_text_hint">Enter Supplier Phone Number</string>
+</resources>
