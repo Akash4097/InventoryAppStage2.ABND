@@ -2,6 +2,7 @@ package com.example.akash.inventoryappstage1;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -87,16 +88,16 @@ public class EditorActivity extends AppCompatActivity {
         values.put(InventoryContract.ProductEntry.COLUMN_SUPPLIER_NAME, prSupplierName);
         values.put(InventoryContract.ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, prSupplierPhoneNumber);
 
-        // Insert a new row for product in the database, returning the ID of that new row.
-        long id = db.insert(InventoryContract.ProductEntry.TABLE_NAME, null, values);
+        Uri uri = getContentResolver().insert(InventoryContract.ProductEntry.CONTENT_URI,values);
 
-        if (id != -1) {
-            // If the row ID is other than -1 then the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "product saved with row id " + id, Toast.LENGTH_SHORT);
+        if (uri == null) {
+            // If the uri is null, then there was an error with insertion.
+            Toast.makeText(this, R.string.editor_insert_failed, Toast.LENGTH_SHORT).show();
         } else {
-            // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error with saving product", Toast.LENGTH_SHORT);
+            // Otherwise, the insertion was successful and we can display a toast with the row ID.
+            Toast.makeText(this, R.string.editor_insert_saved , Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
      * the product database.
      */
     private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         //create projection variable
         String project[] = {ProductEntry._ID,
@@ -70,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 ProductEntry.COLUMN_SUPPLIER_NAME,
                 ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER};
 
-        Cursor cursor = db.query(ProductEntry.TABLE_NAME,
-                project, null,
-                null, null,
-                null, null);
+
+        Cursor cursor = getContentResolver().
+                query(ProductEntry.CONTENT_URI,
+                        project,
+                        null,
+                        null,
+                        null);
+
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
             // product table in the database).
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void insertProduct() {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Asus Zenfone Max pro");
@@ -130,9 +129,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, "Anothny Gonjales");
         values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, "91-987654321");
 
-        long id = db.insert(ProductEntry.TABLE_NAME, null, values);
-        Log.i("database Id ", String.valueOf(id));
-
+        Uri uri = getContentResolver().insert(ProductEntry.CONTENT_URI,values);
     }
 
     /**

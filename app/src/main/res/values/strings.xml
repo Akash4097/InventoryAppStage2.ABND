@@ -14,4 +14,6 @@
     <string name="supplier_name_edit_text_hint">Enter Supplier Name</string>
     <string name="supplier_phone_number_text_view_text">Supplier Phone Number</string>
     <string name="supplier_phone_number_edit_text_hint">Enter Supplier Phone Number</string>
+    <string name="editor_insert_saved">Product saved</string>
+    <string name="editor_insert_failed">Error with saving product</string>
 </resources>

@@ -21,9 +21,12 @@
         <activity
             android:name=".EditorActivity"
             android:label="Add new product"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"></activity>
 
-        </activity>
+        <provider
+            android:name=".data.ProductProvider"
+            android:authorities="com.example.akash.inventoryappstage1"
+            android:exported="false" />
     </application>
 
 </manifest>
