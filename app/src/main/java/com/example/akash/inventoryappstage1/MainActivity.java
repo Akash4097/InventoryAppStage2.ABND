@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.empty_view)
     RelativeLayout emptyView;
 
+    private static final int URL_LOADER = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
