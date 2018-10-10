@@ -52,6 +52,7 @@ public class ProductProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
+        boolean useAuthorityUri = false;
         // Get readable database
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
@@ -66,6 +67,7 @@ public class ProductProvider extends ContentProvider {
                 // projection, selection, selection arguments, and sort order. The cursor
                 // could contain multiple rows of the products table.
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                useAuthorityUri = true;
                 break;
             case PRODUCTS_ID:
                 // For the PRODUCT_ID code, extract out the ID from the URI.
@@ -83,11 +85,23 @@ public class ProductProvider extends ContentProvider {
                 // Cursor containing that row of the table.
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
+                useAuthorityUri = true;
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
+        // Set notification URI on the Cursor,
+        // so we know what content URI the Cursor was created for.
+        // If the data at this URI changes, then we know we need to update the Cursor.
+
+        if (useAuthorityUri) {
+            cursor.setNotificationUri(getContext().getContentResolver(), ProductEntry.CONTENT_URI);
+        } else {
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
+
+        // Return the cursor
         return cursor;
     }
 
@@ -152,6 +166,7 @@ public class ProductProvider extends ContentProvider {
         if (supplierPhoneNumber == null) {
             throw new IllegalArgumentException("supplier phone number cannot be null");
         }
+
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
 
@@ -159,6 +174,9 @@ public class ProductProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        //notify all the listeners that the data for the product content uri has changed
+        getContext().getContentResolver().notifyChange(uri, null);
 
         // Once we know the ID of the new row in the table,
         // return the new URI with the ID appended to the end of it
@@ -170,19 +188,32 @@ public class ProductProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
+        // Track the number of rows that were deleted
+        int rowsDeleted;
+
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS:
                 // Delete all rows that match the selection and selection args
-                return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case PRODUCTS_ID:
                 // Delete a single row given by the ID in the URI
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 
     @Override
@@ -259,8 +290,16 @@ public class ProductProvider extends ContentProvider {
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
-        // Returns the number of database rows affected by the update statement
-        return database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows updated
+        return rowsUpdated;
     }
 
 }
