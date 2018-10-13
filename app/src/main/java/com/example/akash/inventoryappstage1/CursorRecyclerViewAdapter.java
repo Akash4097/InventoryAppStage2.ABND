@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by skyfishjy on 10/31/14.
+ * From the given gist:https://gist.github.com/Akash4097/e3bbe058d0ebaa5a863c1f8ce8a61eba
  */
 
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {

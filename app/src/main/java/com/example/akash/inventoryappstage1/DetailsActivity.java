@@ -79,8 +79,8 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                quantity--;
-                if (quantity >= 0) {
+                if (quantity > 0) {
+                    quantity--;
                     values.put(InventoryContract.ProductEntry.COLUMN_QUANTITY, quantity);
                     getContentResolver().update(mCurrentProductUri, values, null, null);
                 } else {
@@ -93,9 +93,11 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             @Override
             public void onClick(View v) {
                 ContentValues values = new ContentValues();
-                quantity++;
-                values.put(InventoryContract.ProductEntry.COLUMN_QUANTITY, quantity);
-                getContentResolver().update(mCurrentProductUri, values, null, null);
+                if (quantity < Integer.MAX_VALUE) {
+                    quantity++;
+                    values.put(InventoryContract.ProductEntry.COLUMN_QUANTITY, quantity);
+                    getContentResolver().update(mCurrentProductUri, values, null, null);
+                }
             }
         });
 
