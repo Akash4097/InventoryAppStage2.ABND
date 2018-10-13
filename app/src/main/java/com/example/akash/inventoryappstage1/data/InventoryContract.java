@@ -15,7 +15,7 @@ public final class InventoryContract {
     public static abstract class ProductEntry implements BaseColumns {
 
 
-        /** The content URI to access the pet data in the provider */
+        /** The content URI to access the product data in the provider */
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PRODUCTS);
 
         /**

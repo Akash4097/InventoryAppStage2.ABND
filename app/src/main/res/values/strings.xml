@@ -1,25 +1,142 @@
 <resources>
-    <string name="app_name">InventoryAppStage1</string>
-    <string name="setting_save_title">Save</string>
-    <string name="setting_delete_title">Delete</string>
-    <string name="setting_insert_dummy_data_title">Insert Dummy Data</string>
-    <string name="setting_delete_all_products_title">Delete All Products</string>
-    <string name="product_name_edit_text_hint">Enter Product Name</string>
-    <string name="product_name_text_view_text">Product Name</string>
-    <string name="product_price_text_view_text">Product Price</string>
-    <string name="product_price_edit_text_hint">Enter Product Price</string>
-    <string name="product_quantity_text_view_text">Product Quantity</string>
-    <string name="product_quantity_edit_text_hint">Enter Product Quantity</string>
-    <string name="supplier_name_text_view_text">Supplier Name</string>
-    <string name="supplier_name_edit_text_hint">Enter Supplier Name</string>
-    <string name="supplier_phone_number_text_view_text">Supplier Phone Number</string>
-    <string name="supplier_phone_number_edit_text_hint">Enter Supplier Phone Number</string>
-    <string name="editor_insert_saved">Product saved</string>
-    <string name="editor_insert_failed">Error with saving product</string>
+    <!-- Name of the app -->
+    <string name="app_name">InventoryAppStage2</string>
 
-    <!-- Title text for the empty view, which describes the empty products image -->
-    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+    <!-- title for the setting "Save" -->
+    <string name="setting_save_title">Save</string>
+
+    <!-- title for setting 'Delete' -->
+    <string name="setting_delete_title">Delete</string>
+
+    <!-- title for the setting 'Insert Dummy Data' -->
+    <string name="setting_insert_dummy_data_title">Insert Dummy Data</string>
+
+    <!-- title for the setting 'Delete All Products' -->
+    <string name="setting_delete_all_products_title">Delete All Products</string>
+
+    <!-- hint text for Product Name EditText  -->
+    <string name="product_name_edit_text_hint">Enter Product Name</string>
+
+    <!-- hint text for Product Price EditText  -->
+    <string name="product_price_edit_text_hint">Enter Product Price</string>
+
+    <!-- hint text for Product Quantity EditText  -->
+    <string name="product_quantity_edit_text_hint">Enter Product Quantity</string>
+
+    <!-- hint text for Product Supplier Name EditText  -->
+    <string name="supplier_name_edit_text_hint">Enter Supplier Name</string>
+
+    <!-- hint text for Product Supplier Phone Number EditText  -->
+    <string name="supplier_phone_number_edit_text_hint">Enter Supplier Phone Number</string>
+
+    <!-- Product Name TextView text  -->
+    <string name="product_name_text_view_text">Product Name</string>
+
+    <!-- Product Price TextView text  -->
+    <string name="product_price_text_view_text">Product Price</string>
+
+    <!-- Product Quantity TextView text  -->
+    <string name="product_quantity_text_view_text">Product Quantity</string>
+
+    <!-- Product Supplier Name TextView text  -->
+    <string name="supplier_name_text_view_text">Supplier Name</string>
+
+    <!-- Product Supplier Phone Number TextView text  -->
+    <string name="supplier_phone_number_text_view_text">Supplier Phone Number</string>
+
+    <!-- EditorActivity: dialog text when new product is saved  -->
+    <string name="editor_insert_saved">Product saved</string>
+
+    <!-- EditorActivity: dialog text when new product is failed to saved  -->
+    <string name="editor_insert_failed">Error with saving product</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a product -->
     <string name="empty_view_subtitle_text">Get started by adding a new product</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current product [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current product was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_product_successful">Product deleted</string>
+
+    <!-- Toast message in editor when current product has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_product_failed">Error with deleting product</string>
+
+    <!-- Dialog message to ask the user  to confirm deleting the current product [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this product?</string>
+
+    <!-- Dialog message to ask the user  to confirm deleting all products [CHAR LIMIT=NONE] -->
+    <string name="delete_all_products_dialog_msg">Delete all products?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current product [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current product [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+    <!-- when no product is in the list then the appear text -->
+    <string name="empty_text_view_text">Empty Store!</string>
+
+    <!-- tools:text for list_item layout file Product Name TextView -->
+    <string name="list_item_product_name_text">Product Name</string>
+
+    <!-- text for list_item layout file Product Price TextView -->
+    <string name="list_item_price_text">Price:</string>
+
+    <!-- tools:text for list_item layout file Product Price TextView -->
+    <string name="list_item_product_price_text">Product Price</string>
+
+    <!-- text for list_item layout file Product Quantity TextView -->
+    <string name="list_item_quantity_text">Quantity:</string>
+
+    <!-- tools:text for list_item layout file Product Quantity TextView -->
+    <string name="list_item_product_quantity_text">Product Quantity</string>
+
+    <!-- text for sale button -->
+    <string name="sale_button_text">Sale</string>
+
+    <!-- text for order button -->
+    <string name="order_button_text">Order</string>
+
+    <!-- text for decrease Quantity button -->
+    <string name="decrease_button_text">-</string>
+
+    <!-- text for increase Quantity button -->
+    <string name="increase_button_text">+</string>
+
+    <!-- text for dummy data values for Product Name -->
+    <string name="dummy_product_name">Google Pixel 3</string>
+
+    <!-- text for dummy data values for Product Supplier Name -->
+    <string name="dummy_product_supplier_name">Google corp.</string>
+
+    <!-- text for dummy data values for Product Supplier Phone Number -->
+    <string name="dummy_supplier_phone_number">91-987654321</string>
+
+    <!-- exception text for uri value is null -->
+    <string name="uri_null_exception">Uri cannot be null</string>
+
+    <!-- exception text when quantity is less than 0 -->
+    <string name="quantity_less_than_zero_error">Quantity cannot be less than zero</string>
+
+    <!-- title for setting float action button -->
+    <string name="add_new_product_text">Add a new Product</string>
+
+    <!-- title for setting Edit a product -->
+    <string name="edit_existing_product">Edit a product</string>
+
+    <!-- title for setting Delete All Products -->
+    <string name="delete_all_products">Delete All Products!</string>
+
+    <!-- dialog text when updating the product gives error -->
+    <string name="editing_error_with_updating">Error with updating product</string>
+
+    <!-- dialog text when updating the product done successful -->
+    <string name="editing_update_successful">Product Updated</string>
 </resources>

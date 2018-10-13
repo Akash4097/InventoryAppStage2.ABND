@@ -52,7 +52,6 @@ public class ProductProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        boolean useAuthorityUri = false;
         // Get readable database
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
@@ -67,7 +66,6 @@ public class ProductProvider extends ContentProvider {
                 // projection, selection, selection arguments, and sort order. The cursor
                 // could contain multiple rows of the products table.
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-                useAuthorityUri = true;
                 break;
             case PRODUCTS_ID:
                 // For the PRODUCT_ID code, extract out the ID from the URI.
@@ -85,7 +83,6 @@ public class ProductProvider extends ContentProvider {
                 // Cursor containing that row of the table.
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
-                useAuthorityUri = true;
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
@@ -95,11 +92,7 @@ public class ProductProvider extends ContentProvider {
         // so we know what content URI the Cursor was created for.
         // If the data at this URI changes, then we know we need to update the Cursor.
 
-        if (useAuthorityUri) {
-            cursor.setNotificationUri(getContext().getContentResolver(), ProductEntry.CONTENT_URI);
-        } else {
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         // Return the cursor
         return cursor;
@@ -151,8 +144,8 @@ public class ProductProvider extends ContentProvider {
 
         //check that the product quantity should be greater than or equal to 1
         int productQuantity = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
-        if (productQuantity < 1) {
-            throw new IllegalArgumentException("Quantity should be greater than 1");
+        if (productQuantity < 0) {
+            throw new IllegalArgumentException("Quantity should be greater than or equal to 0");
         }
 
         //check the supplier name cannot be null
@@ -221,20 +214,20 @@ public class ProductProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS:
-                return updatePet(uri, values, selection, selectionArgs);
+                return updateProduct(uri, values, selection, selectionArgs);
             case PRODUCTS_ID:
                 // For the PRODUCT_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, values, selection, selectionArgs);
+                return updateProduct(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -263,8 +256,8 @@ public class ProductProvider extends ContentProvider {
         // check that the quantity must be greater than 1.
         if (values.containsKey(ProductEntry.COLUMN_QUANTITY)) {
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
-            if (quantity < 1) {
-                throw new IllegalArgumentException("Quantity must be greater than 1");
+            if (quantity < 0) {
+                throw new IllegalArgumentException("Quantity must be greater than or equal to zero");
             }
         }
 

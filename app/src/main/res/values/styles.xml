@@ -8,20 +8,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Customize theme for all EditText in EditorActivity-->
     <style name="EditTextStyle" parent="AppTheme">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">2</item>
+        <item name="android:textColor">@android:color/background_dark</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
+    <!-- Customize theme for all TextView in EditorActivity-->
     <style name="TextViewStyle" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">@color/list_item_text_color</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:textColor">#F0514B</item>
     </style>
 </resources>

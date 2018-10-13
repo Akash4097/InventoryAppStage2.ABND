@@ -1,74 +1,106 @@
 package com.example.akash.inventoryappstage1;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.akash.inventoryappstage1.data.InventoryContract;
 
-public class InventoryCursorAdapter extends RecyclerView.Adapter<InventoryCursorAdapter.ViewHolder>{
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    CursorAdapter cursorAdapter;
-    Context context;
+import com.example.akash.inventoryappstage1.data.InventoryContract.ProductEntry;
 
-    public InventoryCursorAdapter(Context context, Cursor cursor){
+public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryCursorAdapter.ViewHolder> {
+    private Context context;
+    private Cursor cursor;
+
+    public InventoryCursorAdapter(Context context, Cursor cursor) {
+        super(context, cursor);
         this.context = context;
-        cursorAdapter = new CursorAdapter(context,cursor){
+        this.cursor = cursor;
+    }
 
-            @Override
-            public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                return LayoutInflater.from(context).inflate(R.layout.list_item,parent,false);
-            }
-
-            @Override
-            public void bindView(View view, Context context, Cursor cursor) {
-
-                TextView name = view.findViewById(R.id.productNameTextView);
-                TextView price = view.findViewById(R.id.productPriceTextView);
-                TextView quantity = view.findViewById(R.id.productQuantityTextView);
-
-                String productName = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_PRODUCT_NAME));
-                int productPrice = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_PRICE));
-                int productQuantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_QUANTITY));
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry._ID));
-
-                quantity.setText(String.valueOf(productQuantity));
-                name.setText( String.valueOf(id)+ ":" + productName);
-                price.setText(String.valueOf(productPrice));
-            }
-        };
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
+        @BindView(R.id.productNameTextView)
+        TextView productName;
+        @BindView(R.id.productPriceTextView)
+        TextView productPrice;
+        @BindView(R.id.productQuantityTextView)
+        TextView productQuantity;
+        @BindView(R.id.saleButton)
+        Button saleButton;
+
+        public ViewHolder(final View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
     @Override
-    public int getItemCount() {
-        return cursorAdapter.getCount();
+    public void onBindViewHolder(final InventoryCursorAdapter.ViewHolder viewHolder, final Cursor cursor) {
+        String productName = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_PRODUCT_NAME));
+        int productPrice = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_PRICE));
+        int productQuantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_QUANTITY));
+
+        viewHolder.productName.setText(productName);
+        viewHolder.productPrice.setText(String.valueOf(productPrice));
+        viewHolder.productQuantity.setText(String.valueOf(productQuantity));
+
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                int id = viewHolder.getAdapterPosition();
+                Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, getItemId(id));
+                intent.setData(currentProductUri);
+                context.startActivity(intent);
+
+            }
+        });
+
+        viewHolder.saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAdapterPosition();
+                cursor.moveToPosition(position);
+                int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.ProductEntry.COLUMN_QUANTITY));
+                quantity--;
+
+                if (quantity >= 0) {
+                    ContentValues values = new ContentValues();
+                    values.put(ProductEntry.COLUMN_QUANTITY, quantity);
+                    Uri uri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, getItemId(position));
+                    context.getContentResolver().update(uri, values, null, null);
+                } else {
+                    Toast.makeText(context, context.getString(R.string.quantity_less_than_zero_error), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // Passing the binding operation to cursor loader
-        cursorAdapter.getCursor().moveToPosition(position); //EDITED: added this line as suggested in the comments below, thanks :)
-        cursorAdapter.bindView(holder.itemView, context, cursorAdapter.getCursor());
-
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Passing the inflater job to the cursor-adapter
-        View v = cursorAdapter.newView(context, cursorAdapter.getCursor(), parent);
+    public InventoryCursorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(v);
     }
 }

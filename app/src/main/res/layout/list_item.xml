@@ -4,60 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="@dimen/list_item_layout_padding">
 
     <TextView
         android:id="@+id/productNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/list_item_layout_margin"
+        android:layout_marginStart="@dimen/list_item_layout_margin"
+        android:layout_marginTop="@dimen/list_item_layout_margin"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"
+        android:textColor="@color/list_item_text_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Product1" />
+        tools:text="@string/list_item_product_name_text" />
 
     <TextView
-        android:id="@+id/productQuantityTextView"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/productNameTextView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="10" />
+        android:layout_marginLeft="@dimen/list_item_layout_margin"
+        android:layout_marginStart="@dimen/list_item_layout_margin"
+        android:layout_marginTop="@dimen/list_item_layout_margin"
+        android:text="@string/list_item_price_text"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/list_item_text_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productNameTextView" />
 
     <TextView
         android:id="@+id/productPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="@dimen/list_item_layout_margin"
+        android:layout_marginStart="@dimen/list_item_layout_margin"
+        android:layout_marginTop="@dimen/list_item_layout_margin"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#2B3D4D"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
-        tools:text="Product1" />
+        tools:text="@string/list_item_product_price_text" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_item_layout_margin"
+        android:layout_marginStart="@dimen/list_item_layout_margin"
+        android:layout_marginTop="@dimen/list_item_layout_margin"
+        android:text="@string/list_item_quantity_text"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/list_item_text_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/productQuantityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_item_layout_margin"
+        android:layout_marginStart="@dimen/list_item_layout_margin"
+        android:textAppearance="?android:textAppearanceSmall"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        tools:text="@string/list_item_product_quantity_text" />
 
     <Button
         android:id="@+id/saleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Sale"
+        android:layout_marginBottom="@dimen/list_item_layout_margin"
+        android:layout_marginEnd="@dimen/list_item_layout_margin"
+        android:layout_marginRight="@dimen/list_item_layout_margin"
+        android:layout_marginTop="@dimen/list_item_layout_margin"
+        android:background="@color/colorAccent"
+        android:text="@string/sale_button_text"
+        android:textColor="@color/sale_button_text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/productQuantityTextView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Sale" />
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

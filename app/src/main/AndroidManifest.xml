@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.akash.inventoryappstage1">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -14,19 +14,28 @@
             android:label="Products">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/AppTheme"
             android:name=".EditorActivity"
             android:label="Add new product"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
 
         <provider
             android:name=".data.ProductProvider"
             android:authorities="com.example.akash.inventoryappstage1"
             android:exported="false" />
+
+        <activity android:name=".DetailsActivity"
+            android:label="Product Details"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
